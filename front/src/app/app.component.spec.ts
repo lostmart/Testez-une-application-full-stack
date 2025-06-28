@@ -17,11 +17,7 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule, // Better for testing than HttpClientModule
-        MatToolbarModule,
-      ],
+      imports: [RouterTestingModule, HttpClientTestingModule, MatToolbarModule],
       declarations: [AppComponent],
     }).compileComponents();
 
