@@ -54,4 +54,32 @@ describe('AppComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['']);
     });
   });
+
+  describe('UI rendering based on login state', () => {
+    it('should show logout-related links when logged in', () => {
+      jest.spyOn(sessionService, '$isLogged').mockReturnValue(of(true));
+
+      fixture.detectChanges(); // triggers Angular to render the DOM
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(compiled.textContent).toContain('Sessions');
+      expect(compiled.textContent).toContain('Account');
+      expect(compiled.textContent).toContain('Logout');
+      expect(compiled.textContent).not.toContain('Login');
+      expect(compiled.textContent).not.toContain('Register');
+    });
+
+    it('should show login/register links when not logged in', () => {
+      jest.spyOn(sessionService, '$isLogged').mockReturnValue(of(false));
+
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(compiled.textContent).toContain('Login');
+      expect(compiled.textContent).toContain('Register');
+      expect(compiled.textContent).not.toContain('Sessions');
+      expect(compiled.textContent).not.toContain('Account');
+      expect(compiled.textContent).not.toContain('Logout');
+    });
+  });
 });
