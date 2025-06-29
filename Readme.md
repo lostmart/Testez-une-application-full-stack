@@ -55,4 +55,4 @@ For the front-end, once you have your environment up and running, you have three
     "test:coverage": "jest --coverage"
 ```
 
-or simple `npm run test -- [pathToYourFile]` like: `src/app/app.component.spec.ts`
+or simple `npm run test -- [pathToYourFile]` like: `src/app/app.component.spec.ts` if you want to run one test file only
