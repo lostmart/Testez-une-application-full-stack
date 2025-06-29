@@ -42,3 +42,17 @@ This full-stack application is a booking system developed for Savasana, a local 
 
 - Custom Webpack (via `@angular-builders/custom-webpack`)
 - Code coverage: `nyc, @cypress/code-coverage`
+
+## Running tests
+
+## Frontend
+
+For the front-end, once you have your environment up and running, you have three scripts for running tests. From your project root run:
+
+```json
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+```
+
+or simple `npm run test -- [pathToYourFile]` like: `src/app/app.component.spec.ts`
