@@ -1,10 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +11,6 @@ import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
 import { MeComponent } from './me.component';
 import { expect, it, describe, beforeEach } from '@jest/globals';
-import { waitForAsync } from '@angular/core/testing';
 
 describe('MeComponent', () => {
   let component: MeComponent;
