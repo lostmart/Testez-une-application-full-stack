@@ -16,7 +16,7 @@ import { SessionService } from '../../services/session.service';
 import { UserService } from '../../services/user.service';
 import { MeComponent } from './me.component';
 import { expect, it, describe, beforeEach } from '@jest/globals';
-import { waitForAsync } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('MeComponent', () => {
   let component: MeComponent;
@@ -51,6 +51,7 @@ describe('MeComponent', () => {
         MatCardModule,
         MatIconModule,
         MatSnackBarModule,
+        NoopAnimationsModule,
       ],
       providers: [
         {
@@ -105,27 +106,25 @@ describe('MeComponent', () => {
     });
   });
 
-  // describe('delete', () => {
-  //   it('should delete account and redirect', (done) => {
-  //     const logoutSpy = jest.spyOn(sessionService, 'logOut');
-  //     const navigateSpy = jest.spyOn(router, 'navigate');
+  describe('delete', () => {
+    it('should delete account and redirect', (done) => {
+      const navigateSpy = jest.spyOn(router, 'navigate');
 
-  //     component.delete();
+      component.delete();
 
-  //     // wait one tick so your subscribe() callback has definitely run
-  //     setTimeout(() => {
-  //       expect(userService.delete).toHaveBeenCalledWith('1');
-  //       expect(snackBar.open).toHaveBeenCalledWith(
-  //         'Your account has been deleted !',
-  //         'Close',
-  //         { duration: 3000 }
-  //       );
-  //       expect(logoutSpy).toHaveBeenCalled();
-  //       expect(navigateSpy).toHaveBeenCalledWith(['/']);
-  //       done();
-  //     }, 0);
-  //   });
-  // });
+      // wait one tick so your subscribe() callback has definitely run
+      setTimeout(() => {
+        expect(userService.delete).toHaveBeenCalledWith('1');
+        expect(snackBar.open).toHaveBeenCalledWith(
+          'Your account has been deleted !',
+          'Close',
+          { duration: 3000 }
+        );
+        expect(navigateSpy).toHaveBeenCalledWith(['/']);
+        done();
+      }, 0);
+    });
+  });
 
   describe('template', () => {
     it('should show admin message for admin user', () => {
