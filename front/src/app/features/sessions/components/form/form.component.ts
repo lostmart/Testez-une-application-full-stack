@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { SessionService } from '../../../../services/session.service';
 import { TeacherService } from '../../../../services/teacher.service';
 import { Session } from '../../interfaces/session.interface';
 import { SessionApiService } from '../../services/session-api.service';
+
+
 
 @Component({
   selector: 'app-form',
@@ -17,7 +19,7 @@ export class FormComponent implements OnInit {
   public onUpdate: boolean = false;
   public sessionForm: FormGroup | undefined;
   public teachers$ = this.teacherService.all();
-  private id: string | undefined;
+  public id: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +28,8 @@ export class FormComponent implements OnInit {
     private sessionApiService: SessionApiService,
     private sessionService: SessionService,
     private teacherService: TeacherService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone 
   ) {
   }
 
@@ -60,7 +63,7 @@ export class FormComponent implements OnInit {
     }
   }
 
-  private initForm(session?: Session): void {
+  public initForm(session?: Session): void {
     this.sessionForm = this.fb.group({
       name: [
         session ? session.name : '',
@@ -86,6 +89,6 @@ export class FormComponent implements OnInit {
 
   private exitPage(message: string): void {
     this.matSnackBar.open(message, 'Close', { duration: 3000 });
-    this.router.navigate(['sessions']);
+    this.ngZone.run(() => this.router.navigate(['sessions']));
   }
 }
