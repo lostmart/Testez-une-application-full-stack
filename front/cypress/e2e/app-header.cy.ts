@@ -19,6 +19,11 @@ context('When logged in', () => {
 
     // Wait for redirection to confirm login worked
     cy.url().should('not.include', '/login');
+
+    // Verify the toolbar contains the "Yoga app" title and is visible
+    cy.get('mat-toolbar')
+      .contains('span', /Yoga app/i)
+      .should('be.visible');
   });
 
   it('should show Sessions, Account, and Logout links only', () => {
