@@ -66,3 +66,85 @@ npm run test            # Run all Jest tests
 npm run test:watch      # Run tests in watch mode
 npm run test:coverage   # Generate unit test coverage report
 ```
+
+### Run a specific test file:
+
+```bash
+npm run test -- src/app/app.component.spec.ts
+```
+
+## Cypress E2E Tests
+
+E2E tests simulate real user behavior (e.g. login, session creation).
+
+Run interactively:
+
+```bash
+npm run cypress:open
+```
+
+Run headlessly (e.g. in CI):
+
+```bash
+npm run cypress:run
+```
+
+Cypress tests are located in `front/cypress/e2e/`
+Ensure the Angular app is running on `http://localhost:4200`
+
+## E2E Test Coverage Report
+
+To generate and view end-to-end coverage:
+
+### - Run the instrumented test build:
+
+```bash
+npm run e2e:ci
+```
+
+### - Generate coverage report:
+
+```bash
+npm run e2e:coverage
+```
+
+### - View the report in your browser:
+
+```bash
+npm run e2e:coverage:open
+```
+
+Then visit: http://localhost:4300
+
+## ☕ Backend Tests
+
+From the back/ directory:
+
+`./mvnw verify`
+
+View the JaCoCo HTML report:
+
+`back/target/site/jacoco/index.html`
+
+## 🧩 Setup Notes
+
+### 1. Frontend
+
+```bash
+cd front
+npm install
+npm start
+```
+
+### 2. Backend
+
+- Requires Java 11+, Maven, and a running MySQL instance
+- Configure `.env` or `application.properties` with:
+  - MySQL credentials
+  - JWT secret
+
+### 3. Cypress
+
+- App must run on `http://localhost:4200`
+- Cypress config: `front/cypress.config.ts`
+- TypeScript support: `front/cypress/tsconfig.json`
