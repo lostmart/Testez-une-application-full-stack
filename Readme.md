@@ -1,5 +1,3 @@
-![CI](https://github.com/lostmart/Testez-une-application-full-stack/actions/workflows/ci.yml/badge.svg)
-
 # Savanza - Yoga Fullstack App
 
 This full-stack application is a booking system developed for Savasana, a local yoga studio. The app enables users to register and reserve yoga sessions online. It is built with a modern front-end using Angular and a RESTful back-end using Spring Boot. The codebase emphasizes modular design, maintainability, and automated testing with code coverage exceeding 80%.
