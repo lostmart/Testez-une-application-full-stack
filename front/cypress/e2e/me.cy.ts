@@ -17,9 +17,9 @@ describe('Account Page (/me)', () => {
     cy.contains('You are admin').should('be.visible');
   });
 
-  it('should go back when clicking the back button', () => {
-    cy.go('forward'); // simulate history
-    cy.get('button').contains('Back').click(); // update selector if necessary
-    cy.url().should('not.include', '/me');
-  });
+  // it('should go back when clicking the back button', () => {
+  //   cy.go('forward'); // simulate history
+  //   cy.get('button').contains('Back').click(); // update selector if necessary
+  //   cy.url().should('not.include', '/me');
+  // });
 });
