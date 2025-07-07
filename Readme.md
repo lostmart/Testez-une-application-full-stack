@@ -101,6 +101,7 @@ To generate and view end-to-end coverage:
 ### - Run the instrumented test build:
 
 ```bash
+npm run e2e:ci
 npm run cypress:run
 ```
 
