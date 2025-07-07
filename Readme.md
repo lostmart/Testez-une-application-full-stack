@@ -129,6 +129,28 @@ View the JaCoCo HTML report:
 
 `back/target/site/jacoco/index.html`
 
+### 🧪 UserController Unit Test Example
+
+The UserController includes unit tests for the `GET /api/user/{id}` endpoint. These tests cover:
+
+- ✅ Valid user ID returns user data
+- ❌ Non-existent user returns 404 Not Found
+- 🚫 Invalid ID format returns 400 Bad Request
+
+Tests are written with JUnit 5 and Mockito, isolated from the Spring context for fast execution.
+
+Run them with:
+
+```bash
+./mvnw test -Dtest=UserControllerTest
+```
+
+Test class location:
+
+```bash
+back/src/test/java/com/openclassrooms/starterjwt/controllers/UserControllerTest.java
+```
+
 ## 🧩 Setup Notes
 
 ### 1. Frontend
