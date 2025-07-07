@@ -94,12 +94,14 @@ Ensure the Angular app is running on `http://localhost:4200`
 
 ## E2E Test Coverage Report
 
+Make sure the full application is running ❗ Front and back !
+Front: `localhost:4200`, back : `localhost:8080`
 To generate and view end-to-end coverage:
 
 ### - Run the instrumented test build:
 
 ```bash
-npm run e2e:ci
+npm run cypress:run
 ```
 
 ### - Generate coverage report:
@@ -114,7 +116,7 @@ npm run e2e:coverage
 npm run e2e:coverage:open
 ```
 
-Then visit: http://localhost:4300
+Then visit: `http://localhost:4300`
 
 ## ☕ Backend Tests
 

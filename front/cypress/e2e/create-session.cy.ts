@@ -87,7 +87,7 @@ describe('Create Session Flow', () => {
     // Check the icon and teacher name exist together
     cy.get('mat-card-subtitle').within(() => {
       cy.get('mat-icon').should('contain.text', 'people');
-      cy.get('[data-cy-teacher]').should('exist');
+      cy.get('[data-cy-teacher]').should('exist'); 
       cy.get('[data-cy-teacher]').invoke('text').should('not.be.empty');
     });
 
