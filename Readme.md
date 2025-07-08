@@ -6,10 +6,11 @@ This full-stack application is a booking system developed for **Savasana**, a lo
 
 ## ⚙️ Technos and Versions
 
-- Java 11
+- Java 17 (Temurin 17.0.15+6)
 - Node.js 16
 - MySQL
 - Angular CLI 14.2.1
+- Maven 3.9.10
 
 ---
 
@@ -27,9 +28,39 @@ This full-stack application is a booking system developed for **Savasana**, a lo
 
 ### ✅ Backend Testing
 
-- Unit & Integration: Spring Boot Test
+- Unit & Integration: Spring Boot Test, JUnit 5, Mockito
 - Security: Spring Security Test
 - Code Coverage: JaCoCo (enforced thresholds)
+
+### 🔍 Commands to Run Tests and View Coverage
+
+`cd back`
+`./mvnw clean verify`
+or
+`mvn test`
+
+This runs all unit and integration tests and generates a coverage report.
+To open the JaCoCo HTML report:
+`open back/target/site/jacoco/index.html   # or manually open in browser`
+
+### IMPORTANT ❗
+
+If you need a clean test tun:
+
+`mvn clean verify`
+
+`clean`
+
+- Deletes the `target/` directory (the previous build output).
+- Ensures that you're starting with a clean slate.
+
+`verify`
+
+- Runs the full build lifecycle up to the `verify` phase
+- This includes:
+  - `compile:` Compile the Java source code.
+  - `test:` Run unit tests.
+  - `package:` Package the code into a JAR/WAR (this includes code coverage checks from JaCoCo)
 
 ---
 
