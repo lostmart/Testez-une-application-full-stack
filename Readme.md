@@ -26,7 +26,7 @@ This full-stack application is a booking system developed for **Savasana**, a lo
 - **Environment Management:** dotenv-java
 - **Code Generation:** Lombok
 
-### ✅ Backend Testing
+### 🔬 Backend Testing
 
 - Unit & Integration: Spring Boot Test, JUnit 5, Mockito
 - Security: Spring Security Test
