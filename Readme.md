@@ -35,9 +35,7 @@ This full-stack application is a booking system developed for **Savasana**, a lo
 ### 🔍 Commands to Run Tests and View Coverage
 
 `cd back`
-`./mvnw clean verify`
-or
-`mvn test`
+`./mvnw clean verify` or `mvn test`
 
 This runs all unit and integration tests and generates a coverage report.
 To open the JaCoCo HTML report:
