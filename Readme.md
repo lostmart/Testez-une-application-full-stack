@@ -202,3 +202,29 @@ npm start
 - App must run on `http://localhost:4200`
 - Cypress config: `front/cypress.config.ts`
 - TypeScript support: `front/cypress/tsconfig.json`
+
+## 🧪 Testing Strategy
+
+### ✅ Unit Tests
+
+- Services, mappers, and security logic are tested with JUnit and Mockito.
+- Critical logic like authentication, user loading, and session creation is covered.
+- DTOs are excluded from unit tests as per project guidelines.
+
+### ✅ End-to-End (E2E) Tests
+
+- E2E tests are implemented using Cypress.
+- They simulate real user scenarios like login and protected route access.
+
+### ✅ Coverage Summary
+
+- 80%+ coverage on all backend packages except DTOs.
+- JaCoCo is used for instrumentation.
+- See `/target/site/jacoco/index.html` for full report.
+
+### 🔍 Testing Alignment
+
+- Tests reflect the documented test plan, ensuring that:
+  - Authentication logic is robust
+  - Services behave consistently
+  - Input/output mapping is verified via mappers

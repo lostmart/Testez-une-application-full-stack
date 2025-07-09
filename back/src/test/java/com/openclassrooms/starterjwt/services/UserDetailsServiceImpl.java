@@ -1,4 +1,6 @@
-package com.openclassrooms.starterjwt.security.services;
+package com.openclassrooms.starterjwt.services;
+
+
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.UserRepository;
+import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
 
-@Service("securityUserDetailsService")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   UserRepository userRepository;
 
@@ -24,13 +27,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + username));
 
     return UserDetailsImpl
-        .builder()
-        .id(user.getId())
-        .username(user.getEmail())
-        .lastName(user.getLastName())
-        .firstName(user.getFirstName())
-        .password(user.getPassword())
-        .build();
+            .builder()
+            .id(user.getId())
+            .username(user.getEmail())
+            .lastName(user.getLastName())
+            .firstName(user.getFirstName())
+            .password(user.getPassword())
+            .build();
   }
 
 }
