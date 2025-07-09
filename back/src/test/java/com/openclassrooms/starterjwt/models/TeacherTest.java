@@ -11,15 +11,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TeacherTest {
 
     @Test
-    void testSetters() {
-        Teacher teacher = new Teacher();
-        teacher.setLastName("Doe");
-        teacher.setFirstName("John");
-        teacher.setCreatedAt(LocalDateTime.now());
+    void testSettersAndGetters() {
+        LocalDateTime now = LocalDateTime.now();
 
-        assertEquals("Doe", teacher.getLastName());
-        assertEquals("John", teacher.getFirstName());
-        assertNotNull(teacher.getCreatedAt());
+        Teacher teacher = new Teacher();
+        teacher.setId(42L);
+        teacher.setFirstName("Alice");
+        teacher.setLastName("Smith");
+        teacher.setCreatedAt(now);
+        teacher.setUpdatedAt(now);
+
+        assertEquals(42L, teacher.getId());
+        assertEquals("Alice", teacher.getFirstName());
+        assertEquals("Smith", teacher.getLastName());
+        assertEquals(now, teacher.getCreatedAt());
+        assertEquals(now, teacher.getUpdatedAt());
     }
 
     @Test
@@ -89,5 +95,48 @@ public class TeacherTest {
         set.add(t1);
 
         assertTrue(set.contains(t2));
+    }
+
+    @Test
+    void testEquals_nullId() {
+        Teacher t1 = Teacher.builder().id(null).build();
+        Teacher t2 = Teacher.builder().id(null).build();
+
+        assertEquals(t1, t2); // Depending on how equals is implemented
+        assertEquals(t1.hashCode(), t2.hashCode());
+    }
+
+    @Test
+    void testEquals_differentIdOnly() {
+        Teacher t1 = Teacher.builder().id(1L).build();
+        Teacher t2 = Teacher.builder().id(2L).build();
+
+        assertNotEquals(t1, t2);
+    }
+
+    @Test
+    void testBuilderCreatesValidObject() {
+        LocalDateTime now = LocalDateTime.now();
+        Teacher teacher = Teacher.builder()
+                .id(123L)
+                .firstName("Mike")
+                .lastName("Tyson")
+                .createdAt(now)
+                .updatedAt(now)
+                .build();
+
+        assertEquals(123L, teacher.getId());
+        assertEquals("Mike", teacher.getFirstName());
+        assertEquals("Tyson", teacher.getLastName());
+        assertEquals(now, teacher.getCreatedAt());
+        assertEquals(now, teacher.getUpdatedAt());
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Teacher t = Teacher.builder().id(77L).firstName("Zoe").lastName("Lee").build();
+        int hash1 = t.hashCode();
+        int hash2 = t.hashCode();
+        assertEquals(hash1, hash2);
     }
 }

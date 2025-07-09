@@ -18,45 +18,45 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @EntityListeners(AuditingEntityListener.class)
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"id"}) // Equality only on ID
 @Builder
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
 @ToString
 public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
-  @NonNull
-  @Size(max = 50)
-  @Email
-  private String email;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @NonNull
-  @Size(max = 20)
-  @Column(name = "last_name")
-  private String lastName;
+    @NonNull
+    @Size(max = 50)
+    @Email
+    private String email;
 
-  @NonNull
-  @Size(max = 20)
-  @Column(name = "first_name")
-  private String firstName;
+    @NonNull
+    @Size(max = 20)
+    @Column(name = "last_name")
+    private String lastName;
 
-  @NonNull
-  @Size(max = 120)
-  private String password;
+    @NonNull
+    @Size(max = 20)
+    @Column(name = "first_name")
+    private String firstName;
 
-  @NonNull
-  private boolean admin;
+    @NonNull
+    @Size(max = 120)
+    private String password;
 
-  @CreatedDate
-  @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt;
+    @NonNull
+    private boolean admin;
 
-  @UpdateTimestamp
-  @Column(name = "updated_at")
-  private LocalDateTime updatedAt;
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

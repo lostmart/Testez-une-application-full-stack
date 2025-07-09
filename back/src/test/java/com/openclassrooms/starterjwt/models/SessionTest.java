@@ -31,9 +31,9 @@ public class SessionTest {
 
         Session session = Session.builder()
                 .id(1L)
-                .name("Morning Yoga")
+                .name("test Yoga")
                 .date(date)
-                .description("A peaceful morning yoga session")
+                .description("a test yoga session")
                 .teacher(teacher)
                 .users(Collections.singletonList(user))
                 .createdAt(now)
@@ -41,9 +41,9 @@ public class SessionTest {
                 .build();
 
         assertEquals(1L, session.getId());
-        assertEquals("Morning Yoga", session.getName());
+        assertEquals("test Yoga", session.getName());
         assertEquals(date, session.getDate());
-        assertEquals("A peaceful morning yoga session", session.getDescription());
+        assertEquals("a test yoga session", session.getDescription());
         assertEquals(teacher, session.getTeacher());
         assertEquals(1, session.getUsers().size());
         assertEquals(user, session.getUsers().get(0));
