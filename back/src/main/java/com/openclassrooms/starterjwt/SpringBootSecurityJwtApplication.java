@@ -14,6 +14,7 @@ public class SpringBootSecurityJwtApplication {
 		Dotenv dotenv = Dotenv.configure()
 				.directory(".")
 				.filename(".env")
+				.ignoreIfMissing()
 				.load();
 
 		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
