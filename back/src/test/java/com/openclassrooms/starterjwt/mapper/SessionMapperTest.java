@@ -23,7 +23,7 @@ class SessionMapperTest {
     private final TeacherService teacherService = mock(TeacherService.class);
     private final UserService userService = mock(UserService.class);
 
-    private SessionMapper sessionMapper; // ✅ FIXED TYPE
+    private SessionMapper sessionMapper; 
 
     @BeforeEach
     void setUp() {
