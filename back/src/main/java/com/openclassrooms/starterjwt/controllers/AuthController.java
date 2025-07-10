@@ -68,18 +68,21 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
+        
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already taken!"));
         }
 
+
         // Create new user's account
         User user = User.builder()
                 .email("email@example.com")
                 .lastName("Doe")
                 .firstName("John")
-                .password("secret")
+                .password(encodedPassword)
                 .admin(true)
                 .build();
 
