@@ -1,5 +1,6 @@
 package com.openclassrooms.starterjwt.security;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.starterjwt.security.jwt.AuthEntryPointJwt;
 
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,27 +59,15 @@ class AuthEntryPointJwtTest {
         // Verify response body
         String responseBody = outputStream.toString();
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> responseMap = mapper.readValue(responseBody, HashMap.class);
+        Map<String, Object> responseMap = mapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {
+        });
 
         assertThat(responseMap)
-            .containsEntry("status", HttpServletResponse.SC_UNAUTHORIZED)
-            .containsEntry("error", "Unauthorized")
-            .containsEntry("message", "Test error message")
-            .containsEntry("path", "/api/test");
+                .containsEntry("status", HttpServletResponse.SC_UNAUTHORIZED)
+                .containsEntry("error", "Unauthorized")
+                .containsEntry("message", "Test error message")
+                .containsEntry("path", "/api/test");
     }
-
-    // @Test
-    // void shouldHandleIOExceptionWhenWritingResponse() throws Exception {
-    //     // Setup to throw IOException when getting output stream
-    //     when(response.getOutputStream()).thenThrow(new IOException("Test IO Exception"));
-
-    //     // When
-    //     authEntryPointJwt.commence(request, response, authException);
-
-    //     // Then verify response was still attempted to be set up
-    //     verify(response).setContentType(MediaType.APPLICATION_JSON_VALUE);
-    //     verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    // }
 
     // Helper class to stub ServletOutputStream
     private static class ServletOutputStreamStub extends javax.servlet.ServletOutputStream {
