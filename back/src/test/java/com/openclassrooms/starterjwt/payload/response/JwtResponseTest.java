@@ -61,13 +61,13 @@ class JwtResponseTest {
 
         // Then - Default equals() compares references
         assertThat(response1)
-            .isEqualTo(response1)  // Same instance
-            .isNotEqualTo(differentResponse)
-            .isNotEqualTo(null)
-            .isNotEqualTo(new Object());
-        
+                .isEqualTo(response1) // Same instance
+                .isNotEqualTo(differentResponse)
+                .isNotEqualTo(null)
+                .isNotEqualTo(new Object());
+
         // For field-based equality, we need to add @EqualsAndHashCode to the class
-        // assertThat(response1).isEqualTo(response2); // Will fail without @EqualsAndHashCode
+        assertThat(response2).isNotEqualTo(differentResponse);
     }
 
     @Test
@@ -80,11 +80,11 @@ class JwtResponseTest {
 
         // Then - Default toString() just shows class name + hashcode
         assertThat(toStringResult)
-            .startsWith("com.openclassrooms.starterjwt.payload.response.JwtResponse@");
+                .startsWith("com.openclassrooms.starterjwt.payload.response.JwtResponse@");
     }
 
-    private JwtResponse createJwtResponse(String token, Long id, String username, 
-                                        String firstName, String lastName, Boolean admin) {
+    private JwtResponse createJwtResponse(String token, Long id, String username,
+            String firstName, String lastName, Boolean admin) {
         JwtResponse response = new JwtResponse(token, id, username, firstName, lastName, admin);
         return response;
     }

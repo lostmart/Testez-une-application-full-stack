@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class AuthControllerTest {
@@ -64,9 +65,11 @@ public class AuthControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         assertTrue(response.getBody() instanceof JwtResponse);
 
-        JwtResponse jwtResponse = (JwtResponse) response.getBody();
-        assertEquals("mockJwt", jwtResponse.getToken());
-        assertEquals("test@example.com", jwtResponse.getUsername());
+        Optional<JwtResponse> jwtResponseOptional = Optional.ofNullable((JwtResponse) response.getBody());
+        jwtResponseOptional.ifPresent(jwtResponse -> {
+            assertEquals("mockJwt", jwtResponse.getToken());
+            assertEquals("test@example.com", jwtResponse.getUsername());
+        });
     }
 
     @Test
@@ -79,8 +82,10 @@ public class AuthControllerTest {
         ResponseEntity<?> response = authController.registerUser(request);
 
         assertEquals(400, response.getStatusCodeValue());
-        assertTrue(response.getBody() instanceof MessageResponse);
-        assertEquals("Error: Email is already taken!", ((MessageResponse) response.getBody()).getMessage());
+        Object responseBody = response.getBody();
+        assertNotNull(responseBody);
+        assertTrue(responseBody instanceof MessageResponse);
+        assertEquals("Error: Email is already taken!", ((MessageResponse) responseBody).getMessage());
     }
 
     @Test
@@ -98,7 +103,14 @@ public class AuthControllerTest {
 
         assertEquals(200, response.getStatusCodeValue());
         assertTrue(response.getBody() instanceof MessageResponse);
-        assertEquals("User registered successfully!", ((MessageResponse) response.getBody()).getMessage());
+        Object responseBody = response.getBody();
+        if (responseBody != null) {
+            assertTrue(responseBody instanceof MessageResponse);
+            assertEquals("User registered successfully!", ((MessageResponse) responseBody).getMessage());
+        } else {
+            // Handle the case where responseBody is null
+            fail("Response body is null");
+        }
 
         verify(userRepository, times(1)).save(any(User.class));
     }

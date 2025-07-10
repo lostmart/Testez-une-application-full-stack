@@ -2,7 +2,6 @@ package com.openclassrooms.starterjwt.payload.request;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -11,7 +10,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
-import java.util.stream.Stream;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -154,13 +153,13 @@ class SignupRequestTest {
     }
 
     // ==================== Helper Methods ====================
-    private static Stream<String> invalidNameLengthProvider() {
-        return Stream.of("a", "ab", "a".repeat(21));
-    }
+        // private static Stream<String> validPasswordLengthProvider() {
+        //     return Stream.of("a", "ab", "a".repeat(21));
+        // }
 
-    private static Stream<String> invalidPasswordLengthProvider() {
-        return Stream.of("a", "abcde", "a".repeat(41));
-    }
+        // private static Stream<String> invalidPasswordLengthProvider() {
+        //     return Stream.of("a", "abcde", "a".repeat(41));
+        // }
 
     private SignupRequest createValidRequest() {
         SignupRequest request = new SignupRequest();
