@@ -1,6 +1,5 @@
 package com.openclassrooms.starterjwt.models;
 
-
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 
@@ -60,7 +59,7 @@ public class UserRepositoryIntegrationTest {
     void should_find_user_by_id() {
         User user = entityManager.persist(createTestUser("find@me.com"));
         User foundUser = userRepository.findById(user.getId()).orElse(null);
-        
+
         assertThat(foundUser).isNotNull();
         assertThat(foundUser.getEmail()).isEqualTo("find@me.com");
     }
@@ -74,7 +73,7 @@ public class UserRepositoryIntegrationTest {
     void should_find_all_users() {
         entityManager.persist(createTestUser("user1@test.com"));
         entityManager.persist(createTestUser("user2@test.com"));
-        
+
         List<User> users = userRepository.findAll();
         assertThat(users).hasSize(2);
     }
@@ -89,7 +88,7 @@ public class UserRepositoryIntegrationTest {
     @Test
     void should_enforce_email_uniqueness() {
         userRepository.save(createTestUser("unique@test.com"));
-        
+
         User duplicateUser = createTestUser("unique@test.com");
         assertThrows(Exception.class, () -> {
             userRepository.save(duplicateUser);
@@ -100,9 +99,9 @@ public class UserRepositoryIntegrationTest {
     @Test
     void should_delete_user() {
         User user = entityManager.persist(createTestUser("delete@me.com"));
-        
+
         userRepository.deleteById(user.getId());
-        
+
         assertThat(userRepository.findById(user.getId())).isEmpty();
     }
 
@@ -111,13 +110,13 @@ public class UserRepositoryIntegrationTest {
         User admin = createTestUser("admin@test.com");
         admin.setAdmin(true);
         userRepository.save(admin);
-        
+
         User regular = createTestUser("regular@test.com");
         userRepository.save(regular);
-        
+
         User foundAdmin = userRepository.findById(admin.getId()).orElseThrow();
         User foundRegular = userRepository.findById(regular.getId()).orElseThrow();
-        
+
         assertTrue(foundAdmin.isAdmin());
         assertFalse(foundRegular.isAdmin());
     }
