@@ -11,6 +11,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class SpringBootSecurityJwtApplication {
 	public static void main(String[] args) {
 
+		
+
 		Dotenv dotenv = Dotenv.configure()
 				.directory(".")
 				.filename(".env")

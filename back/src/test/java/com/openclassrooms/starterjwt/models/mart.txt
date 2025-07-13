@@ -1,0 +1,184 @@
+package com.openclassrooms.starterjwt.models;
+
+import com.openclassrooms.starterjwt.dto.UserDto;
+import com.openclassrooms.starterjwt.mapper.UserMapper;
+import com.openclassrooms.starterjwt.repository.UserRepository;
+import com.openclassrooms.starterjwt.services.UserService;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+@DataJpaTest
+@ActiveProfiles("test")
+@Transactional
+@Sql(scripts = "classpath:init-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class UserRepositoryIntegrationTest {
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private UserService userService;
+
+    @MockBean
+    private UserRepository userRepository;
+
+    @MockBean
+    private UserMapper userMapper;
+
+    @BeforeEach
+    void setUp() {
+        entityManager.getEntityManager().createNativeQuery(
+                "CREATE TABLE IF NOT EXISTS users (" +
+                        "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                        "email VARCHAR(50) UNIQUE, " +
+                        "first_name VARCHAR(20), " +
+                        "last_name VARCHAR(20), " +
+                        "password VARCHAR(120), " +
+                        "admin BOOLEAN, " +
+                        "created_at TIMESTAMP, " +
+                        "updated_at TIMESTAMP)")
+                .executeUpdate();
+    }
+
+    @AfterEach
+    void tearDown() {
+        entityManager.clear();
+    }
+
+    private User createTestUser(String email) {
+        return User.builder()
+                .email(email)
+                .firstName("Test")
+                .lastName("User")
+                .password("password123")
+                .admin(false)
+                .build();
+    }
+
+    @Test
+    void should_store_a_user() {
+        User user = User.builder()
+                .email("test@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .password("password123")
+                .admin(false)
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        assertThat(savedUser.getId()).isNotNull();
+        assertThat(savedUser.getEmail()).isEqualTo("test@example.com");
+        assertThat(savedUser.getCreatedAt()).isNotNull();
+    }
+
+    @Test
+    void should_find_user_by_id() {
+        User user = createTestUser("test@example.com");
+        User savedUser = userRepository.saveAndFlush(user);
+
+        Optional<User> foundUser = userRepository.findById(savedUser.getId());
+
+        assertThat(foundUser).isPresent();
+        assertThat(foundUser.get()).isEqualTo(savedUser);
+    }
+
+    @Test
+    void should_delete_user() {
+        User user = createTestUser("delete@example.com");
+        User savedUser = userRepository.saveAndFlush(user);
+
+        userRepository.delete(savedUser);
+        userRepository.flush();
+
+        assertThat(userRepository.findById(savedUser.getId())).isEmpty();
+    }
+
+    @Test
+    void should_enforce_email_uniqueness() {
+        userRepository.saveAndFlush(createTestUser("duplicate@example.com"));
+
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            userRepository.saveAndFlush(createTestUser("duplicate@example.com"));
+        });
+    }
+
+    @Test
+    void should_auto_populate_timestamps() {
+        User testUser = createTestUser("test@example.com");
+        User user = userRepository.save(testUser);
+        assertNotNull(user.getCreatedAt());
+        assertNotNull(user.getUpdatedAt());
+    }
+
+    @Test
+    void should_find_all_users() {
+        User user1 = createTestUser("user1@example.com");
+        User user2 = createTestUser("user2@example.com");
+        userRepository.saveAll(List.of(user1, user2));
+
+        List<User> users = userRepository.findAll();
+
+        assertThat(users).hasSize(2);
+        assertThat(users).extracting(User::getEmail)
+                .containsExactlyInAnyOrder("user1@example.com", "user2@example.com");
+    }
+
+    @Test
+    void should_return_empty_for_nonexistent_id() {
+        Optional<User> foundUser = userRepository.findById(999L);
+        assertThat(foundUser).isEmpty();
+    }
+
+    @Test
+    void should_update_user() {
+        User user = createTestUser("update@example.com");
+        User savedUser = userRepository.saveAndFlush(user);
+
+        savedUser.setFirstName("Updated");
+        savedUser.setLastName("Name");
+        User updatedUser = userRepository.saveAndFlush(savedUser);
+
+        Optional<User> foundUser = userRepository.findById(savedUser.getId());
+
+        assertThat(foundUser).isPresent();
+        assertThat(foundUser.get().getFirstName()).isEqualTo("Updated");
+        assertThat(foundUser.get().getLastName()).isEqualTo("Name");
+        assertThat(foundUser.get().getUpdatedAt())
+                .isAfterOrEqualTo(foundUser.get().getCreatedAt());
+    }
+
+    @Test
+    void should_verify_admin_flag() {
+        User adminUser = createTestUser("admin@example.com");
+        adminUser.setAdmin(true);
+        User savedAdmin = userRepository.saveAndFlush(adminUser);
+
+        User regularUser = createTestUser("regular@example.com");
+        User savedRegular = userRepository.saveAndFlush(regularUser);
+
+        assertTrue(userRepository.findById(savedAdmin.getId()).get().isAdmin());
+        assertFalse(userRepository.findById(savedRegular.getId()).get().isAdmin());
+    }
+
+    // Removed the should_handle_null_fields_appropriately test as it violates
+    // @NonNull constraints
+}

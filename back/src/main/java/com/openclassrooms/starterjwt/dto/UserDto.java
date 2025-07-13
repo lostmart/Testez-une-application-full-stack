@@ -40,4 +40,15 @@ public class UserDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public UserDto(Long id, String email, String lastName, String firstName, boolean admin, String password) {
+        this.id = id;
+        this.email = email;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.admin = admin;
+        this.password = password;
+        this.createdAt = null;
+        this.updatedAt = null;
+    }
 }
